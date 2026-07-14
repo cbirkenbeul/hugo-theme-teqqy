@@ -21,11 +21,16 @@
 <meta name="robots" content="{{ if or (eq .Kind "taxonomy") (eq .Kind "term") (eq .Kind "section") (eq .Type "search") }}noindex, follow{{ else }}index, follow{{ end }}">
 
 {{/* ===== IMAGE RESOLUTION ===== */}}
-{{/* Priority: post frontmatter image → site default image */}}
+{{/* Priority: post frontmatter image (page-bundle resource, else absolute path) → site default image */}}
 {{- $image := "" -}}
 {{- $imageAlt := .Title | default .Site.Title -}}
 {{- with .Params.image -}}
-  {{- $image = . | absURL -}}
+  {{- $imgRes := $.Page.Resources.GetMatch . -}}
+  {{- if $imgRes -}}
+    {{- $image = $imgRes.Permalink -}}
+  {{- else -}}
+    {{- $image = . | absURL -}}
+  {{- end -}}
 {{- else -}}
   {{- with $.Site.Params.image -}}
     {{- $image = . | absURL -}}
@@ -191,7 +196,8 @@
 <link rel="icon" type="image/png" href="/images/og-default.png" sizes="32x32">
 
 {{/* ===== PER-POST OG IMAGE ===== */}}
-{{- if and .IsPage .Site.Params.ogImages -}}
+{{/* Only auto-generate when the post didn't set its own frontmatter image */}}
+{{- if and .IsPage .Site.Params.ogImages (not .Params.image) -}}
 {{- $bg := resources.Get "images/og-bg.png" -}}
 {{- $font := resources.Get "fonts/inter.ttf" -}}
 {{- if and $bg $font -}}
