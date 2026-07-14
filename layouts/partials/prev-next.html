@@ -1,0 +1,16 @@
+{{- if or .PrevInSection .NextInSection -}}
+<nav class="post-nav" aria-label="{{ i18n "postNav" }}">
+  {{- with .PrevInSection }}
+  <a class="post-nav-item prev" href="{{ .RelPermalink }}" rel="prev">
+    <span class="post-nav-label" aria-hidden="true">&#8592; {{ i18n "prevPost" }}</span>
+    <span class="post-nav-title">{{ .Title }}</span>
+  </a>
+  {{- else }}<div></div>{{- end }}
+  {{- with .NextInSection }}
+  <a class="post-nav-item next" href="{{ .RelPermalink }}" rel="next">
+    <span class="post-nav-label" aria-hidden="true">{{ i18n "nextPost" }} &#8594;</span>
+    <span class="post-nav-title">{{ .Title }}</span>
+  </a>
+  {{- end }}
+</nav>
+{{- end -}}

@@ -1,0 +1,18 @@
+<div class="post-meta">
+  <time datetime="{{ .Date.Format "2006-01-02T15:04:05Z07:00" }}" itemprop="datePublished">
+    {{ .Date.Format "02. Jan 2006" }}
+  </time>
+  {{- if .Lastmod.After .Date }}
+  <span class="post-updated">
+    <meta itemprop="dateModified" content="{{ .Lastmod.Format "2006-01-02T15:04:05Z07:00" }}">
+    {{ i18n "updatedOn" }} <time datetime="{{ .Lastmod.Format "2006-01-02T15:04:05Z07:00" }}">{{ .Lastmod.Format "02. Jan 2006" }}</time>
+  </span>
+  {{- else }}
+  <meta itemprop="dateModified" content="{{ .Date.Format "2006-01-02T15:04:05Z07:00" }}">
+  {{- end }}
+  {{- if and .Site.Params.readingTime .ReadingTime }}
+  <span class="reading-time" aria-label="{{ i18n "readingTimeLabel" .ReadingTime }}">
+    {{ i18n "readingTime" .ReadingTime }}
+  </span>
+  {{- end }}
+</div>

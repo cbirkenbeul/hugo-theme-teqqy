@@ -1,0 +1,25 @@
+{{ define "main" }}
+<section class="page-container" aria-labelledby="search-heading">
+  <h1 id="search-heading">{{ .Title }}</h1>
+
+  <form class="search-form" role="search" action="">
+    <label for="search-input" class="visually-hidden">{{ i18n "searchLabel" }}</label>
+    <input
+      type="search"
+      id="search-input"
+      name="q"
+      class="search-input"
+      placeholder="{{ i18n "searchPlaceholder" }}"
+      autocomplete="off"
+      autocorrect="off"
+      autocapitalize="off"
+      spellcheck="false"
+      aria-describedby="search-status"
+    >
+  </form>
+
+  <p id="search-status" role="status" aria-live="polite" aria-atomic="true"></p>
+
+  <ul id="search-results" class="post-list" role="list" aria-label="{{ i18n "searchResults" }}"></ul>
+</section>
+{{ end }}

@@ -1,0 +1,13 @@
+{{ define "main" }}
+<section class="page-container" aria-labelledby="tags-heading">
+  <h1 id="tags-heading">{{ .Title }}</h1>
+
+  <ul class="year-post-list" role="list">
+    {{- range .Data.Terms.ByCount }}
+    <li class="year-post-item">
+      <a href="{{ .Page.RelPermalink }}">#{{ .Term }} <span class="year-count">({{ len .Pages }})</span></a>
+    </li>
+    {{- end }}
+  </ul>
+</section>
+{{ end }}

@@ -1,0 +1,11 @@
+<aside class="callout callout-info" role="note" aria-label="{{ i18n "calloutInfo" }}">
+  <svg class="callout-icon" aria-hidden="true" focusable="false" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="12" cy="12" r="10"/>
+    <line x1="12" y1="8" x2="12" y2="12"/>
+    <line x1="12" y1="16" x2="12.01" y2="16"/>
+  </svg>
+  <div class="callout-content">
+    <p class="callout-title">{{ with .Get "title" }}{{ . }}{{ else }}{{ i18n "calloutInfo" }}{{ end }}</p>
+    <div class="callout-body">{{ .Inner | markdownify }}</div>
+  </div>
+</aside>

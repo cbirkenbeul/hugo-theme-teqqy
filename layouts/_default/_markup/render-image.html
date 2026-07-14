@@ -1,0 +1,42 @@
+{{- $src := .Destination -}}
+{{- $alt := .Text -}}
+{{- $title := .Title -}}
+
+{{/* First image per page loads eager (likely the LCP element); every later one stays lazy */}}
+{{- $isFirst := not (.Page.Store.Get "imageRendered") -}}
+{{- .Page.Store.Set "imageRendered" true -}}
+{{- $loading := "lazy" -}}
+{{- $fetchPriority := "auto" -}}
+{{- if $isFirst -}}
+  {{- $loading = "eager" -}}
+  {{- $fetchPriority = "high" -}}
+{{- end -}}
+
+{{/* Page bundle resource first, then a shared asset as fallback */}}
+{{- $imgResource := .Page.Resources.GetMatch $src -}}
+{{- if not $imgResource -}}
+  {{- $imgResource = resources.Get (strings.TrimPrefix "/" $src) -}}
+{{- end -}}
+{{- $canProcess := and $imgResource (not (strings.HasSuffix (lower $src) ".svg")) -}}
+
+{{- if $canProcess -}}
+  {{- $maxW := $imgResource.Width -}}
+  {{- $srcset := slice -}}
+  {{- $primary := $imgResource -}}
+  {{- range $bp := (slice 384 768 1536) -}}
+    {{- if le $bp $maxW -}}
+      {{- $resized := $imgResource.Resize (printf "%dx webp" $bp) -}}
+      {{- $srcset = $srcset | append (printf "%s %dw" $resized.RelPermalink $bp) -}}
+      {{- if le $bp 768 -}}{{- $primary = $resized -}}{{- end -}}
+    {{- end -}}
+  {{- end -}}
+  {{- if eq (len $srcset) 0 -}}
+    {{- $primary = $imgResource.Resize (printf "%dx webp" $maxW) -}}
+    {{- $srcset = $srcset | append (printf "%s %dw" $primary.RelPermalink $maxW) -}}
+  {{- end -}}
+  <img src="{{ $primary.RelPermalink }}" srcset="{{ delimit $srcset ", " }}" sizes="(max-width: 768px) 100vw, 768px" alt="{{ $alt }}"{{- with $title }} title="{{ . }}"{{ end }} loading="{{ $loading }}" fetchpriority="{{ $fetchPriority }}" decoding="async" width="{{ $primary.Width }}" height="{{ $primary.Height }}">
+{{- else if $imgResource -}}
+  <img src="{{ $imgResource.RelPermalink }}" alt="{{ $alt }}"{{- with $title }} title="{{ . }}"{{ end }} loading="{{ $loading }}" fetchpriority="{{ $fetchPriority }}" decoding="async">
+{{- else -}}
+  <img src="{{ $src | safeURL }}" alt="{{ $alt }}"{{- with $title }} title="{{ . }}"{{ end }} loading="{{ $loading }}" fetchpriority="{{ $fetchPriority }}" decoding="async">
+{{- end -}}

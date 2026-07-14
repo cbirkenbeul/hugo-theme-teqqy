@@ -1,0 +1,9 @@
+{{- $id := .Get "id" -}}
+{{- $title := .Get "title" | default "YouTube Video" -}}
+<div class="video-embed" data-src="https://www.youtube-nocookie.com/embed/{{ $id }}?autoplay=1&rel=0">
+  <button class="video-embed-trigger" type="button" data-umami-event="Video Load" data-umami-event-provider="YouTube" data-umami-event-id="{{ $id }}">
+    <svg class="video-embed-play-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" width="48" height="48"><circle cx="12" cy="12" r="12" fill="rgba(0,0,0,0.6)"/><path d="M9.5 7.5l7 4.5-7 4.5V7.5z" fill="white"/></svg>
+    <span class="video-embed-title">{{ $title }}</span>
+    <span class="video-embed-note">YouTube &middot; {{ i18n "videoClickToLoad" }}</span>
+  </button>
+</div>

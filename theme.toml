@@ -1,0 +1,11 @@
+name = "teqqy"
+license = "MIT"
+licenselink = "https://opensource.org/licenses/MIT"
+description = "A minimalist, accessible Hugo theme for tech blogs"
+homepage = "https://www.teqqy.de"
+min_version = "0.156.0"
+
+[author]
+  name = "teqqy"
+  email = "mail@teqqy.de"
+  homepage = "https://www.teqqy.de"

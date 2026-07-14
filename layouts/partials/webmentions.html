@@ -1,0 +1,8 @@
+{{- if and .IsPage .Site.Params.webmention -}}
+<section class="webmentions" id="webmentions" data-target="{{ .Permalink }}" aria-label="{{ i18n "webmentions" }}">
+  <h2 class="webmentions-heading">{{ i18n "webmentions" }}</h2>
+  <div class="webmentions-content">
+    <button class="webmentions-load-btn" type="button" data-umami-event="Webmentions Load">{{ i18n "webmentionLoad" }}</button>
+  </div>
+</section>
+{{- end -}}

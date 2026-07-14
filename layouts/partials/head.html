@@ -1,0 +1,219 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+
+{{/* Theme init before CSS to prevent flash of wrong theme */}}
+<script>
+(function(){var t=localStorage.getItem('theme');if(t){document.documentElement.setAttribute('data-theme',t);}else if(window.matchMedia('(prefers-color-scheme: dark)').matches){document.documentElement.setAttribute('data-theme','dark');}})();
+</script>
+
+{{/* ===== TITLE ===== */}}
+{{- with .Title }}
+<title>{{ . }} &ndash; {{ $.Site.Title }}</title>
+{{- else }}
+<title>{{ .Site.Title }}</title>
+{{- end }}
+
+{{/* ===== BASIC META ===== */}}
+<meta name="description" content="{{ with .Description }}{{ . }}{{ else }}{{ with .Summary }}{{ . | plainify | truncate 160 }}{{ else }}{{ .Site.Params.description }}{{ end }}{{ end }}">
+<meta name="author" content="{{ .Site.Params.author }}">
+<meta name="generator" content="Hugo {{ hugo.Version }}">
+<meta name="robots" content="{{ if or (eq .Kind "taxonomy") (eq .Kind "term") (eq .Type "search") }}noindex, follow{{ else }}index, follow{{ end }}">
+
+{{/* ===== IMAGE RESOLUTION ===== */}}
+{{/* Priority: post frontmatter image → site default image */}}
+{{- $image := "" -}}
+{{- $imageAlt := .Title | default .Site.Title -}}
+{{- with .Params.image -}}
+  {{- $image = . | absURL -}}
+{{- else -}}
+  {{- with $.Site.Params.image -}}
+    {{- $image = . | absURL -}}
+  {{- end -}}
+{{- end -}}
+{{- $isDefaultImage := eq $image (.Site.Params.image | absURL) -}}
+
+{{/* ===== SOCIAL PROFILES FOR JSON-LD sameAs ===== */}}
+{{- $sameAs := slice -}}
+{{- with .Site.Params.mastodon }}{{ $sameAs = $sameAs | append . }}{{ end -}}
+{{- with .Site.Params.bluesky }}{{ $sameAs = $sameAs | append . }}{{ end -}}
+{{- with .Site.Params.github }}{{ $sameAs = $sameAs | append (printf "https://github.com/%s" .) }}{{ end -}}
+{{- with .Site.Params.youtube }}{{ $sameAs = $sameAs | append (printf "https://www.youtube.com/@%s" .) }}{{ end -}}
+{{- with .Site.Params.instagram }}{{ $sameAs = $sameAs | append (printf "https://www.instagram.com/%s" .) }}{{ end -}}
+{{- with .Site.Params.strava }}{{ $sameAs = $sameAs | append (printf "https://www.strava.com/athletes/%s" .) }}{{ end -}}
+{{- with .Site.Params.peertube }}{{ $sameAs = $sameAs | append . }}{{ end -}}
+
+{{/* ===== OPEN GRAPH ===== */}}
+<meta property="og:site_name" content="{{ .Site.Title }}">
+<meta property="og:title" content="{{ with .Title }}{{ . }}{{ else }}{{ .Site.Title }}{{ end }}">
+<meta property="og:type" content="{{ if .IsPage }}article{{ else }}website{{ end }}">
+<meta property="og:url" content="{{ .Permalink }}">
+<meta property="og:locale" content="{{ .Lang }}">
+<meta property="og:description" content="{{ with .Description }}{{ . }}{{ else }}{{ with .Summary }}{{ . | plainify | truncate 200 }}{{ else }}{{ .Site.Params.description }}{{ end }}{{ end }}">
+{{- with $image }}
+<meta property="og:image" content="{{ . }}">
+<meta property="og:image:alt" content="{{ $imageAlt }}">
+{{- if $isDefaultImage }}
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:type" content="image/png">
+{{- end }}
+{{- end }}
+{{- if .IsPage }}
+<meta property="article:published_time" content="{{ .Date.Format "2006-01-02T15:04:05Z07:00" }}">
+{{- if .Lastmod.After .Date }}
+<meta property="article:modified_time" content="{{ .Lastmod.Format "2006-01-02T15:04:05Z07:00" }}">
+{{- end }}
+<meta property="article:author" content="{{ .Site.Params.author }}">
+{{- with .Params.categories }}
+<meta property="article:section" content="{{ index . 0 }}">
+{{- end }}
+{{- range .Params.tags }}
+<meta property="article:tag" content="{{ . }}">
+{{- end }}
+{{- end }}
+
+{{/* ===== TWITTER / X CARD ===== */}}
+<meta name="twitter:card" content="{{ if $image }}summary_large_image{{ else }}summary{{ end }}">
+<meta name="twitter:title" content="{{ with .Title }}{{ . }}{{ else }}{{ .Site.Title }}{{ end }}">
+<meta name="twitter:description" content="{{ with .Description }}{{ . }}{{ else }}{{ with .Summary }}{{ . | plainify | truncate 200 }}{{ else }}{{ .Site.Params.description }}{{ end }}{{ end }}">
+{{- with $image }}
+<meta name="twitter:image" content="{{ . }}">
+<meta name="twitter:image:alt" content="{{ $imageAlt }}">
+{{- end }}
+{{- with .Site.Params.twitterHandle }}
+<meta name="twitter:site" content="@{{ . }}">
+<meta name="twitter:creator" content="@{{ . }}">
+{{- end }}
+{{- if and .IsPage .ReadingTime }}
+<meta name="twitter:label1" content="{{ i18n "readingTime" .ReadingTime }}">
+<meta name="twitter:data1" content="{{ .ReadingTime }} min">
+{{- end }}
+
+{{/* ===== CANONICAL + ALTERNATES ===== */}}
+<link rel="canonical" href="{{ .Permalink }}">
+{{- range .Translations }}
+<link rel="alternate" hreflang="{{ .Lang }}" href="{{ .Permalink }}">
+{{- end }}
+<link rel="alternate" hreflang="{{ .Lang }}" href="{{ .Permalink }}">
+{{- range .AllTranslations }}
+{{- if eq .Site.LanguagePrefix "" }}
+<link rel="alternate" hreflang="x-default" href="{{ .Permalink }}">
+{{- end }}
+{{- end }}
+
+{{/* ===== RSS ===== */}}
+{{- range .AlternativeOutputFormats -}}
+<link rel="{{ .Rel }}" type="{{ .MediaType.Type }}" href="{{ .Permalink }}" title="{{ $.Site.Title }}">
+{{- end }}
+
+{{/* ===== JSON-LD STRUCTURED DATA ===== */}}
+{{- if .IsPage }}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": {{ .Title | jsonify }},
+  "description": {{ with .Description }}{{ . | jsonify }}{{ else }}{{ with .Summary }}{{ . | plainify | truncate 200 | jsonify }}{{ else }}{{ .Site.Params.description | jsonify }}{{ end }}{{ end }},
+  "url": {{ .Permalink | jsonify }},
+  "datePublished": {{ .Date.Format "2006-01-02T15:04:05Z07:00" | jsonify }},
+  "dateModified": {{ .Lastmod.Format "2006-01-02T15:04:05Z07:00" | jsonify }},
+  "author": {
+    "@type": "Person",
+    "name": {{ .Site.Params.author | jsonify }},
+    "url": {{ .Site.BaseURL | jsonify }}{{ with $sameAs }},
+    "sameAs": {{ . | jsonify }}{{ end }}
+  },
+  "publisher": {
+    "@type": "Person",
+    "name": {{ .Site.Params.author | jsonify }},
+    "url": {{ .Site.BaseURL | jsonify }}{{ with $sameAs }},
+    "sameAs": {{ . | jsonify }}{{ end }}
+  }{{ with $image }},
+  "image": {
+    "@type": "ImageObject",
+    "url": {{ . | jsonify }}
+  }{{ end }}{{ with .Params.tags }},
+  "keywords": {{ . | jsonify }}{{ end }}
+}
+</script>
+{{- else }}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": {{ .Site.Title | jsonify }},
+  "url": {{ .Site.BaseURL | jsonify }},
+  "description": {{ .Site.Params.description | jsonify }},
+  "author": {
+    "@type": "Person",
+    "name": {{ .Site.Params.author | jsonify }}{{ with $sameAs }},
+    "sameAs": {{ . | jsonify }}{{ end }}
+  }{{ if and .IsHome .Site.Params.search }}{{ with .Site.GetPage "/search" }},
+  "potentialAction": {
+    "@type": "SearchAction",
+    "target": {
+      "@type": "EntryPoint",
+      "urlTemplate": {{ printf "%s?q={search_term_string}" .Permalink | jsonify }}
+    },
+    "query-input": "required name=search_term_string"
+  }{{ end }}{{ end }}
+}
+</script>
+{{- end }}
+
+{{/* ===== WEBMENTIONS ===== */}}
+{{- with .Site.Params.webmention }}
+<link rel="webmention" href="https://webmention.io/{{ . }}/webmention">
+<link rel="pingback" href="https://webmention.io/{{ . }}/xmlrpc">
+{{- end }}
+
+{{/* ===== JSON FEED DISCOVERY ===== */}}
+{{- with .OutputFormats.Get "JSONFeed" }}
+<link rel="{{ .Rel }}" type="{{ .MediaType.Type }}" href="{{ .Permalink }}" title="{{ $.Site.Title }}">
+{{- end }}
+
+{{/* ===== SOCIAL PROFILE VERIFICATION ===== */}}
+{{/* Mastodon: rel="me" enables profile verification */}}
+{{- with .Site.Params.mastodon }}
+<link rel="me" href="{{ . }}">
+{{- end }}
+{{/* Bluesky: rel="me" for profile association */}}
+{{- with .Site.Params.bluesky }}
+<link rel="me" href="{{ . }}">
+{{- end }}
+
+{{/* ===== BASE URL FOR JS ===== */}}
+<meta name="lang-prefix" content="{{ .Site.LanguagePrefix }}">
+
+{{/* ===== FAVICON ===== */}}
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="icon" type="image/png" href="/images/og-default.png" sizes="32x32">
+
+{{/* ===== PER-POST OG IMAGE ===== */}}
+{{- if and .IsPage .Site.Params.ogImages -}}
+{{- $bg := resources.Get "images/og-bg.png" -}}
+{{- $font := resources.Get "fonts/inter.ttf" -}}
+{{- if and $bg $font -}}
+  {{- $title := .Title | truncate 60 -}}
+  {{- $site := .Site.Title -}}
+  {{- $titleOpts := dict "color" "#EEE9DF" "size" 56 "x" 80 "y" 220 "font" $font -}}
+  {{- $siteOpts  := dict "color" "#A35139"  "size" 28 "x" 80 "y" 160 "font" $font -}}
+  {{- $urlOpts   := dict "color" "#3A4D61"  "size" 22 "x" 80 "y" 310 "font" $font -}}
+  {{- $img := $bg | images.Filter (images.Text $site $siteOpts) (images.Text $title $titleOpts) (images.Text .Site.BaseURL $urlOpts) -}}
+  {{- with $img.Process "resize 1200x630 png" -}}
+  <meta property="og:image" content="{{ .Permalink }}">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:image" content="{{ .Permalink }}">
+  {{- end -}}
+{{- end -}}
+{{- end -}}
+
+{{/* ===== CSS ===== */}}
+{{- $css := resources.Get "css/main.css" | minify | fingerprint -}}
+<link rel="stylesheet" href="{{ $css.RelPermalink }}" integrity="{{ $css.Data.Integrity }}">
+
+{{/* ===== MOBILE THEME COLOR ===== */}}
+<meta name="theme-color" content="#1B2632" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#EEE9DF" media="(prefers-color-scheme: light)">

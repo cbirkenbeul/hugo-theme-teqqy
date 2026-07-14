@@ -1,0 +1,24 @@
+{{ define "main" }}
+<section class="page-container" aria-labelledby="tag-heading">
+  <h1 id="tag-heading" class="tag-page-title">
+    <span class="tag-page-prefix">#</span>{{ .Title }}
+    <span class="year-count">({{ len .Pages }})</span>
+  </h1>
+
+  {{- range .Pages.GroupByDate "2006" }}
+  <div class="year-group">
+    <h2 class="year-label">{{ .Key }} <span class="year-count">({{ len .Pages }})</span></h2>
+    <ul class="year-post-list" role="list">
+      {{- range .Pages }}
+      <li class="year-post-item">
+        <a href="{{ .RelPermalink }}">{{ .Title }}</a>
+        <time datetime="{{ .Date.Format "2006-01-02" }}" class="year-post-date">
+          {{- .Date.Format "02. Jan" -}}
+        </time>
+      </li>
+      {{- end }}
+    </ul>
+  </div>
+  {{- end }}
+</section>
+{{ end }}

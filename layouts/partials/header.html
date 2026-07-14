@@ -1,0 +1,88 @@
+<div class="site-header-inner">
+  <a class="site-title" href="{{ .Site.BaseURL }}" rel="home">
+    <span aria-hidden="true">//</span>{{ .Site.Title }}
+  </a>
+
+  <nav aria-label="{{ i18n "mainNav" }}">
+    <ul role="list">
+      {{- $currentURL := .RelPermalink -}}
+      {{- range .Site.Menus.main }}
+      {{- $url := .URL -}}
+      {{- $isCurrent := or (eq $currentURL $url) (and (ne $url "/") (strings.HasPrefix $currentURL $url)) -}}
+      <li>
+        <a href="{{ $url }}"{{ if $isCurrent }} aria-current="page"{{ end }}>
+          {{ .Name }}
+        </a>
+      </li>
+      {{- end }}
+    </ul>
+  </nav>
+
+  <div class="header-controls">
+    {{- if .Site.Params.search }}
+    <div class="header-search" role="search">
+      <label for="header-search-input" class="visually-hidden">{{ i18n "search" }}</label>
+      <div class="header-search-field">
+        <svg class="header-search-icon" aria-hidden="true" focusable="false" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+        </svg>
+        <input
+          type="search"
+          id="header-search-input"
+          class="header-search-input"
+          placeholder="{{ i18n "searchPlaceholder" }}"
+          autocomplete="off"
+          autocorrect="off"
+          autocapitalize="off"
+          spellcheck="false"
+          aria-expanded="false"
+          aria-haspopup="listbox"
+          aria-controls="header-search-results"
+          aria-autocomplete="list"
+          data-no-results="{{ i18n "noResults" }}"
+          data-lang-prefix="{{ .Site.LanguagePrefix }}"
+        >
+      </div>
+      <ul
+        id="header-search-results"
+        class="header-search-results"
+        role="listbox"
+        aria-label="{{ i18n "searchResults" }}"
+        hidden
+      ></ul>
+    </div>
+    {{- end }}
+
+    {{- with .Site.Home.OutputFormats.Get "RSS" }}
+    <a class="icon-button" href="{{ .Permalink }}" aria-label="{{ i18n "rssFeed" }}" title="RSS">
+      <svg aria-hidden="true" focusable="false" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M4 11a9 9 0 0 1 9 9"/>
+        <path d="M4 4a16 16 0 0 1 16 16"/>
+        <circle cx="5" cy="19" r="1"/>
+      </svg>
+    </a>
+    {{- end }}
+
+    <button
+      id="theme-toggle"
+      aria-label="{{ i18n "toggleThemeToDark" }}"
+      aria-pressed="false"
+      data-label-dark="{{ i18n "toggleThemeToDark" }}"
+      data-label-light="{{ i18n "toggleThemeToLight" }}"
+      data-umami-event="Theme Toggle"
+    >
+      <svg class="icon-sun" aria-hidden="true" focusable="false" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="5"/>
+        <line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/>
+        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+        <line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/>
+        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+      </svg>
+      <svg class="icon-moon" aria-hidden="true" focusable="false" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+      </svg>
+    </button>
+
+    {{- partial "lang-switcher.html" . }}
+  </div>
+</div>

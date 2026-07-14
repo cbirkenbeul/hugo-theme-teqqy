@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="{{ .Lang }}" data-theme="auto">
+<head>
+  {{- partial "head.html" . -}}
+</head>
+<body>
+  <a class="skip-link" href="#main-content">{{ i18n "skipToContent" }}</a>
+  <header role="banner" class="site-header">
+    {{- partial "header.html" . -}}
+  </header>
+  <main id="main-content" role="main" tabindex="-1">
+    <section class="page-container error-page">
+      <p class="error-code" aria-hidden="true">404</p>
+      <h1>{{ i18n "notFound" }}</h1>
+      <p>{{ i18n "notFoundDesc" }}</p>
+      <a href="{{ .Site.BaseURL }}">{{ i18n "backHome" }}</a>
+    </section>
+  </main>
+  <footer role="contentinfo" class="site-footer">
+    {{- partial "footer.html" . -}}
+  </footer>
+  {{- partial "scripts.html" . -}}
+  {{- with .Site.Params.umami.websiteId }}
+  <script>
+  window.addEventListener('load', function () {
+    if (window.umami) { window.umami.track('404', { path: window.location.pathname }); }
+  });
+  </script>
+  {{- end }}
+</body>
+</html>

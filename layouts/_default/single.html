@@ -1,0 +1,40 @@
+{{ define "main" }}
+{{- $hasToc := and (.Site.Params.toc) (ne .Params.toc false) .TableOfContents -}}
+<div class="post-layout{{ if $hasToc }} post-layout--with-toc{{ end }}">
+
+  <article
+    class="post"
+    itemscope
+    itemtype="https://schema.org/BlogPosting"
+  >
+    <meta itemprop="author" content="{{ .Site.Params.author }}">
+    <meta itemprop="url" content="{{ .Permalink }}">
+
+    <header class="post-header">
+      <h1 class="post-title" itemprop="headline">{{ .Title }}</h1>
+      {{- partial "meta.html" . -}}
+    </header>
+
+    {{- if not $hasToc }}{{- partial "series.html" . -}}{{ end -}}
+    {{- partial "outdated-warning.html" . -}}
+
+    <div class="post-content" itemprop="articleBody">
+      {{- .Content -}}
+    </div>
+
+    {{- partial "share.html" . -}}
+    {{- partial "author.html" . -}}
+    {{- partial "related.html" . -}}
+    {{- partial "prev-next.html" . -}}
+    {{- partial "webmentions.html" . -}}
+  </article>
+
+  {{- if $hasToc }}
+  <aside class="post-toc-sidebar" aria-label="{{ i18n "tableOfContents" }}">
+    {{- partial "series.html" . -}}
+    {{- partial "toc.html" . -}}
+  </aside>
+  {{- end }}
+
+</div>
+{{ end }}

@@ -1,0 +1,162 @@
+skipToContent:
+  other: Zum Hauptinhalt springen
+
+mainNav:
+  other: Hauptnavigation
+
+footerNav:
+  other: Fußzeilen-Navigation
+
+langSwitcher:
+  other: Sprache wechseln
+
+toggleThemeToDark:
+  other: Dunkles Design aktivieren
+
+toggleThemeToLight:
+  other: Helles Design aktivieren
+
+search:
+  other: Suchen
+
+searchLabel:
+  other: Suchbegriff eingeben
+
+searchPlaceholder:
+  other: Suchen…
+
+searchResults:
+  other: Suchergebnisse
+
+relatedPosts:
+  other: Das könnte dich auch interessieren
+
+latestPost:
+  other: Neuester Beitrag
+
+readMore:
+  other: Weiterlesen
+
+allPosts:
+  other: Alle Beiträge
+
+recentPosts:
+  other: Neueste Beiträge
+
+externalLink:
+  other: externer Link
+
+calloutInfo:
+  other: Hinweis
+
+calloutAlert:
+  other: Achtung
+
+outdatedWarningLabel:
+  other: Veraltungshinweis
+
+outdatedYears:
+  one: "Dieser Beitrag wurde zuletzt vor {{ . }} Jahr aktualisiert und könnte veraltete Informationen enthalten."
+  other: "Dieser Beitrag wurde zuletzt vor {{ . }} Jahren aktualisiert und könnte veraltete Informationen enthalten."
+
+outdatedOneYear:
+  other: "Dieser Beitrag wurde zuletzt vor mehr als einem Jahr aktualisiert und könnte veraltete Informationen enthalten."
+
+outdatedMonths:
+  one: "Dieser Beitrag wurde zuletzt vor {{ . }} Monat aktualisiert und könnte veraltete Informationen enthalten."
+  other: "Dieser Beitrag wurde zuletzt vor {{ . }} Monaten aktualisiert und könnte veraltete Informationen enthalten."
+
+updatedOn:
+  other: Aktualisiert am
+
+readingTime:
+  one: "{{ . }} Minute Lesezeit"
+  other: "{{ . }} Minuten Lesezeit"
+
+readingTimeLabel:
+  one: "Lesezeit: {{ . }} Minute"
+  other: "Lesezeit: {{ . }} Minuten"
+
+postTags:
+  other: Beitrags-Tags
+
+categories:
+  other: Kategorien
+
+tableOfContents:
+  other: Inhaltsverzeichnis
+
+prevPost:
+  other: Vorheriger Beitrag
+
+nextPost:
+  other: Nächster Beitrag
+
+postNav:
+  other: Beitragsnavigation
+
+socialProfiles:
+  other: Soziale Profile
+
+builtWith:
+  other: Erstellt mit
+
+siteIntro:
+  other: Seiteneinführung
+
+noPosts:
+  other: Noch keine Beiträge vorhanden.
+
+notFound:
+  other: Seite nicht gefunden
+
+notFoundDesc:
+  other: Die gesuchte Seite existiert leider nicht.
+
+backHome:
+  other: Zur Startseite
+
+copyCode:
+  other: Code kopieren
+
+share:
+  other: Teilen
+
+shareLabel:
+  other: Diesen Artikel teilen
+
+copyLink:
+  other: Link kopiert!
+
+videoClickToLoad:
+  other: Klicken zum Laden
+
+calloutTip:
+  other: Tipp
+
+calloutSuccess:
+  other: Erledigt
+
+webmentions:
+  other: Reaktionen
+
+webmentionLoad:
+  other: Reaktionen laden
+
+authorLabel:
+  other: Über den Autor
+
+noResults:
+  other: Keine Ergebnisse
+
+headingAnchor:
+  other: Diesen Abschnitt verlinken
+
+series:
+  other: Serie
+
+seriesPartOf:
+  other: Teil einer Serie
+
+rssFeed:
+  other: RSS-Feed abonnieren

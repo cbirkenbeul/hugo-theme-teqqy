@@ -1,0 +1,13 @@
+{{- $related := .Site.RegularPages.Related . | first 5 -}}
+{{- with $related -}}
+<section class="related-posts" aria-labelledby="related-heading">
+  <h2 id="related-heading" class="related-heading">{{ i18n "relatedPosts" }}</h2>
+  <ul class="related-list" role="list">
+    {{- range . }}
+    <li class="related-item">
+      <a href="{{ .RelPermalink }}">{{ .Title }}</a>
+    </li>
+    {{- end }}
+  </ul>
+</section>
+{{- end -}}

@@ -1,0 +1,22 @@
+{{- $main := resources.Get "js/main.js" | minify | fingerprint -}}
+<script src="{{ $main.RelPermalink }}" integrity="{{ $main.Data.Integrity }}" defer></script>
+{{- if .Site.Params.search -}}
+{{- $search := resources.Get "js/search.js" | minify | fingerprint -}}
+<script src="{{ $search.RelPermalink }}" integrity="{{ $search.Data.Integrity }}" defer></script>
+{{- end -}}
+{{- with .Site.Params.umami.websiteId -}}
+<script
+  defer
+  src="{{ $.Site.Params.umami.scriptUrl | default "https://cloud.umami.is/script.js" }}"
+  data-website-id="{{ . }}"
+  {{- with $.Site.Params.umami.domains }} data-domains="{{ . }}"{{ end -}}
+  {{- if $.Site.Params.umami.doNotTrack }} data-do-not-track="true"{{ end }}
+></script>
+{{- end -}}
+{{- if .Store.Get "hasMermaid" -}}
+<script type="module">
+import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+mermaid.initialize({ startOnLoad: true, theme: isDark ? 'dark' : 'default' });
+</script>
+{{- end -}}

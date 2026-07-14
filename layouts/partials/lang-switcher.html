@@ -1,0 +1,13 @@
+{{- $currentLang := .Lang -}}
+{{- if gt (len hugo.Sites) 1 -}}
+<nav class="lang-switcher" aria-label="{{ i18n "langSwitcher" }}">
+  <a href="{{ .Permalink }}" hreflang="{{ .Lang }}" lang="{{ .Lang }}" aria-current="true">
+    {{- .Lang | upper -}}
+  </a>
+  {{- range .Translations }}
+  <a href="{{ .Permalink }}" hreflang="{{ .Lang }}" lang="{{ .Lang }}">
+    {{- .Lang | upper -}}
+  </a>
+  {{- end }}
+</nav>
+{{- end -}}

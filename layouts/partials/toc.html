@@ -1,0 +1,6 @@
+{{- if .TableOfContents -}}
+<nav class="toc" aria-label="{{ i18n "tableOfContents" }}">
+  <p class="toc-title">{{ i18n "tableOfContents" }}</p>
+  {{ .TableOfContents }}
+</nav>
+{{- end -}}

@@ -1,0 +1,162 @@
+skipToContent:
+  other: Skip to main content
+
+mainNav:
+  other: Main navigation
+
+footerNav:
+  other: Footer navigation
+
+langSwitcher:
+  other: Switch language
+
+toggleThemeToDark:
+  other: Switch to dark mode
+
+toggleThemeToLight:
+  other: Switch to light mode
+
+search:
+  other: Search
+
+searchLabel:
+  other: Enter search term
+
+searchPlaceholder:
+  other: Search…
+
+searchResults:
+  other: Search results
+
+relatedPosts:
+  other: You might also like
+
+latestPost:
+  other: Latest post
+
+readMore:
+  other: Read more
+
+allPosts:
+  other: All posts
+
+recentPosts:
+  other: Recent posts
+
+externalLink:
+  other: external link
+
+calloutInfo:
+  other: Note
+
+calloutAlert:
+  other: Warning
+
+outdatedWarningLabel:
+  other: Outdated content warning
+
+outdatedYears:
+  one: "This post was last updated {{ . }} year ago and may contain outdated information."
+  other: "This post was last updated {{ . }} years ago and may contain outdated information."
+
+outdatedOneYear:
+  other: "This post was last updated more than a year ago and may contain outdated information."
+
+outdatedMonths:
+  one: "This post was last updated {{ . }} month ago and may contain outdated information."
+  other: "This post was last updated {{ . }} months ago and may contain outdated information."
+
+updatedOn:
+  other: Updated on
+
+readingTime:
+  one: "{{ . }} min read"
+  other: "{{ . }} min read"
+
+readingTimeLabel:
+  one: "Reading time: {{ . }} minute"
+  other: "Reading time: {{ . }} minutes"
+
+postTags:
+  other: Post tags
+
+categories:
+  other: Categories
+
+tableOfContents:
+  other: Table of contents
+
+prevPost:
+  other: Previous post
+
+nextPost:
+  other: Next post
+
+postNav:
+  other: Post navigation
+
+socialProfiles:
+  other: Social profiles
+
+builtWith:
+  other: Built with
+
+siteIntro:
+  other: Site introduction
+
+noPosts:
+  other: No posts yet.
+
+notFound:
+  other: Page not found
+
+notFoundDesc:
+  other: The page you were looking for does not exist.
+
+backHome:
+  other: Back to home
+
+copyCode:
+  other: Copy code
+
+share:
+  other: Share
+
+shareLabel:
+  other: Share this article
+
+copyLink:
+  other: Link copied!
+
+videoClickToLoad:
+  other: Click to load
+
+calloutTip:
+  other: Tip
+
+calloutSuccess:
+  other: Done
+
+webmentions:
+  other: Reactions
+
+webmentionLoad:
+  other: Load reactions
+
+authorLabel:
+  other: About the author
+
+noResults:
+  other: No results
+
+headingAnchor:
+  other: Link to this section
+
+series:
+  other: Series
+
+seriesPartOf:
+  other: Part of a series
+
+rssFeed:
+  other: Subscribe via RSS

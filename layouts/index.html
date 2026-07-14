@@ -1,0 +1,60 @@
+{{ define "main" }}
+{{- $posts := where .Site.RegularPages "Section" "posts" -}}
+{{- $featured := index $posts 0 -}}
+
+<div class="page-container home">
+
+  <h1 class="visually-hidden">{{ .Site.Title }}{{ with .Site.Params.description }} &ndash; {{ . }}{{ end }}</h1>
+
+  {{/* Site intro */}}
+  {{- with .Site.Params.bio }}
+  <div class="site-intro">
+    {{- with $.Site.Params.avatar }}
+    <img class="site-intro-avatar" src="{{ . }}" alt="{{ $.Site.Params.author }}" width="56" height="56" loading="eager" fetchpriority="high">
+    {{- end }}
+    <p class="site-intro-text">{{ . }}</p>
+  </div>
+  {{- end }}
+
+  {{/* Featured post */}}
+  {{- with $featured }}
+  <article class="featured-post">
+    <p class="featured-label">{{ i18n "latestPost" }}</p>
+    <h2 class="featured-title">
+      <a href="{{ .RelPermalink }}">{{ .Title }}</a>
+    </h2>
+    {{- partial "meta.html" . -}}
+    {{- with .Summary }}
+    <p class="featured-summary">{{ . | plainify | truncate 200 }}</p>
+    {{- end }}
+    <a class="featured-read-more" href="{{ .RelPermalink }}">
+      {{ i18n "readMore" }} &rarr;
+    </a>
+  </article>
+  {{- end }}
+
+  {{/* Posts grouped by year (excluding the featured post above) */}}
+  {{- $archivePosts := where $posts "Permalink" "ne" $featured.Permalink -}}
+  {{- if gt (len $archivePosts) 0 }}
+  <section class="posts-archive" aria-labelledby="archive-heading">
+    <h2 id="archive-heading" class="archive-heading">{{ i18n "recentPosts" }}</h2>
+{{- range $archivePosts.GroupByDate "2006" }}
+    <div class="year-group">
+      <h3 class="year-label">{{ .Key }} <span class="year-count">({{ len .Pages }})</span></h3>
+      <ul class="year-post-list" role="list">
+        {{- range .Pages }}
+        <li class="year-post-item">
+          <a href="{{ .RelPermalink }}">{{ .Title }}</a>
+          <time datetime="{{ .Date.Format "2006-01-02" }}" class="year-post-date">
+            {{- .Date.Format "02. Jan" -}}
+          </time>
+        </li>
+        {{- end }}
+      </ul>
+    </div>
+    {{- end }}
+  </section>
+  {{- end }}
+
+</div>
+{{ end }}

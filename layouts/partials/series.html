@@ -1,0 +1,20 @@
+{{- $series := .Params.series -}}
+{{- if $series -}}
+{{- $seriesPosts := (where .Site.RegularPages ".Params.series" $series).ByDate -}}
+{{- if gt (len $seriesPosts) 1 -}}
+<section class="post-series" aria-label="{{ i18n "series" }}">
+  <div class="series-label">{{ i18n "seriesPartOf" }} — <em>{{ $series }}</em></div>
+  <ol class="series-list">
+    {{- range $seriesPosts -}}
+    <li class="series-item{{ if eq .Permalink $.Permalink }} series-item--current{{ end }}">
+      {{- if eq .Permalink $.Permalink -}}
+      <span>{{ .Title }}</span>
+      {{- else -}}
+      <a href="{{ .RelPermalink }}">{{ .Title }}</a>
+      {{- end -}}
+    </li>
+    {{- end -}}
+  </ol>
+</section>
+{{- end -}}
+{{- end -}}

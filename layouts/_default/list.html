@@ -1,0 +1,34 @@
+{{ define "main" }}
+<section class="page-container" aria-labelledby="list-heading">
+  {{- if .Title }}
+  <h1 id="list-heading">{{ .Title }}</h1>
+  {{- end }}
+
+  {{- if .Content }}
+  <div class="list-description">{{ .Content }}</div>
+  {{- end }}
+
+  {{- $paginator := .Paginate .Pages }}
+  {{- if $paginator.Pages }}
+  <ul class="post-list" role="list">
+    {{- range $paginator.Pages }}
+    <li class="post-list-item">
+      <article>
+        <h2 class="post-list-title">
+          <a href="{{ .RelPermalink }}">{{ .Title }}</a>
+        </h2>
+        {{- partial "meta.html" . -}}
+        {{- with .Summary }}
+        <p class="post-summary">{{ . | plainify }}</p>
+        {{- end }}
+      </article>
+    </li>
+    {{- end }}
+  </ul>
+  {{- else }}
+  <p>{{ i18n "noPosts" }}</p>
+  {{- end }}
+
+  {{- template "_internal/pagination.html" . -}}
+</section>
+{{ end }}
