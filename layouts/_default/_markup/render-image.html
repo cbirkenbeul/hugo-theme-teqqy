@@ -13,7 +13,8 @@
 {{- end -}}
 
 {{/* Page bundle resource first, then a shared asset as fallback */}}
-{{- $imgResource := .Page.Resources.GetMatch $src -}}
+{{- $bundleSrc := strings.TrimPrefix "./" $src -}}
+{{- $imgResource := .Page.Resources.GetMatch $bundleSrc -}}
 {{- if not $imgResource -}}
   {{- $imgResource = resources.Get (strings.TrimPrefix "/" $src) -}}
 {{- end -}}
