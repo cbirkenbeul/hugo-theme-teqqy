@@ -22,6 +22,11 @@
       {{- .Content -}}
     </div>
 
+    {{/* VG Wort requires this exact <img> pixel markup verbatim for METIS crawling */}}
+    {{- with .Params.vgwortPixel -}}
+    <img src="https://vg09.met.vgwort.de/na/{{ . }}" width="1" height="1" alt="">
+    {{- end -}}
+
     {{- partial "share.html" . -}}
     {{- partial "author.html" . -}}
     {{- partial "related.html" . -}}
