@@ -12,6 +12,9 @@
       &middot; Getippt mit 💚 in {{ . }}
       {{- end }}
       &middot; Alle Rechte vorbehalten
+      {{- range .Site.Menus.footer }}
+      &middot; <a href="{{ .URL }}">{{ .Name }}</a>
+      {{- end }}
     </small>
   </p>
   {{- $hasSocial := or .Site.Params.mastodon .Site.Params.bluesky .Site.Params.github .Site.Params.strava .Site.Params.youtube .Site.Params.peertube .Site.Params.instagram -}}
