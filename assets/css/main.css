@@ -1137,12 +1137,29 @@ mark { background: var(--color-mark); border-radius: 2px; padding: 0.1em 0.2em; 
   text-underline-offset: 4px;
 }
 
+.year-post-dates {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-2);
+  flex-shrink: 0;
+}
+
 .year-post-date {
   font-size: var(--text-xs);
   font-family: var(--font-sans);
   color: var(--color-text-muted);
   white-space: nowrap;
   flex-shrink: 0;
+}
+
+.year-post-date-updated {
+  font-style: italic;
+}
+
+.year-post-date-updated::before {
+  content: "·";
+  margin-right: var(--space-2);
+  font-style: normal;
 }
 
 /* ===== ERROR PAGE ===== */
