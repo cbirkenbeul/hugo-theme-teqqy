@@ -386,6 +386,10 @@ header nav a[aria-current="page"] {
   padding: var(--space-8) var(--space-6);
 }
 
+.page-container.home {
+  max-width: 56rem;
+}
+
 /* ===== TYPOGRAPHY ===== */
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-display);
@@ -966,15 +970,15 @@ mark { background: var(--color-mark); border-radius: 2px; padding: 0.1em 0.2em; 
   display: flex;
   align-items: flex-start;
   gap: var(--space-6);
-  padding: var(--space-10) 0 var(--space-8);
-  margin-bottom: var(--space-6);
+  padding: var(--space-16) 0 var(--space-10);
+  margin-bottom: var(--space-8);
   border-bottom: 1px solid var(--color-border);
 }
 
 .site-intro-avatar {
   width: 72px;
   height: 72px;
-  margin-top: var(--space-1);
+  margin-top: var(--space-2);
   border-radius: 50%;
   flex-shrink: 0;
   border: 2px solid var(--color-border);
@@ -982,11 +986,11 @@ mark { background: var(--color-mark); border-radius: 2px; padding: 0.1em 0.2em; 
 
 .site-intro-text {
   font-family: var(--font-display);
-  font-size: var(--text-3xl);
+  font-size: clamp(1.75rem, 1.1rem + 3vw, 3rem);
   font-weight: 700;
   color: var(--color-text);
   line-height: var(--leading-tight);
-  letter-spacing: -0.01em;
+  letter-spacing: -0.02em;
   margin: 0;
 }
 
@@ -1207,7 +1211,6 @@ mark { background: var(--color-mark); border-radius: 2px; padding: 0.1em 0.2em; 
   .post-title { font-size: var(--text-3xl); }
 
   .site-intro-avatar { width: 56px; height: 56px; }
-  .site-intro-text { font-size: var(--text-2xl); }
 
   .post,
   .page-container { padding: var(--space-6) var(--space-4); }
