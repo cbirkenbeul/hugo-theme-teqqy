@@ -163,3 +163,15 @@ seriesPartOf:
 
 rssFeed:
   other: Subscribe via RSS
+
+footerNoTracking:
+  other: No cookies. No ad banners.
+
+footerVgwort:
+  other: Please allow the VGWort tracking pixel — it helps fund this site.
+
+footerTypedWith:
+  other: Typed with 💚 in
+
+footerAllRightsReserved:
+  other: All rights reserved

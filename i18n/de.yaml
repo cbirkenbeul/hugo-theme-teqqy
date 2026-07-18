@@ -163,3 +163,15 @@ seriesPartOf:
 
 rssFeed:
   other: RSS-Feed abonnieren
+
+footerNoTracking:
+  other: Keine Cookies. Keine Werbebanner.
+
+footerVgwort:
+  other: Erlaube bitte das Zählpixel der VGWort — es finanziert diese Seite.
+
+footerTypedWith:
+  other: Getippt mit 💚 in
+
+footerAllRightsReserved:
+  other: Alle Rechte vorbehalten

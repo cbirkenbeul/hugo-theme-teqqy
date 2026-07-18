@@ -1,7 +1,7 @@
 <div class="footer-inner">
   <p class="footer-note">
-    Keine Cookies. Keine Werbebanner.
-    Erlaube bitte das Zählpixel der VGWort — es finanziert diese Seite.
+    {{ i18n "footerNoTracking" }}
+    {{ i18n "footerVgwort" }}
   </p>
   <p>
     <small>
@@ -9,9 +9,9 @@
       <a href="{{ .Site.BaseURL }}">{{ .Site.Title }}</a>
       &middot; {{ i18n "builtWith" }} <a href="https://gohugo.io" rel="noopener noreferrer" target="_blank">Hugo</a>
       {{- with .Site.Params.city }}
-      &middot; Getippt mit 💚 in {{ . }}
+      &middot; {{ i18n "footerTypedWith" }} {{ . }}
       {{- end }}
-      &middot; Alle Rechte vorbehalten
+      &middot; {{ i18n "footerAllRightsReserved" }}
       {{- range .Site.Menus.footer }}
       &middot; <a href="{{ .URL }}">{{ .Name }}</a>
       {{- end }}
