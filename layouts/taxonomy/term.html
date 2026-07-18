@@ -5,6 +5,12 @@
     <span class="year-count">({{ len .Pages }})</span>
   </h1>
 
+  {{- with .Content }}
+  <div class="post-content">
+    {{ . }}
+  </div>
+  {{- end }}
+
   {{- range .Pages.GroupByDate "2006" }}
   <div class="year-group">
     <h2 class="year-label">{{ .Key }} <span class="year-count">({{ len .Pages }})</span></h2>
