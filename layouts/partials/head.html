@@ -187,6 +187,13 @@
 {{- with .Site.Params.mastodon }}
 <link rel="me" href="{{ . }}">
 {{- end }}
+{{/* Mastodon: fediverse:creator shows author attribution on link preview cards (Mastodon 4.3+) */}}
+{{- if .IsPage }}
+{{- with .Site.Params.mastodon }}
+{{- $u := urls.Parse . }}
+<meta name="fediverse:creator" content="{{ strings.TrimPrefix "/" $u.Path }}@{{ $u.Host }}">
+{{- end }}
+{{- end }}
 {{/* Bluesky: rel="me" for profile association */}}
 {{- with .Site.Params.bluesky }}
 <link rel="me" href="{{ . }}">
