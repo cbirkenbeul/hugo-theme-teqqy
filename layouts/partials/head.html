@@ -18,7 +18,9 @@
 <meta name="description" content="{{ with .Description }}{{ . }}{{ else }}{{ with .Summary }}{{ . | plainify | truncate 160 }}{{ else }}{{ .Site.Params.description }}{{ end }}{{ end }}">
 <meta name="author" content="{{ .Site.Params.author }}">
 <meta name="generator" content="Hugo {{ hugo.Version }}">
-<meta name="robots" content="{{ if or (eq .Kind "section") (eq .Type "search") }}noindex, follow{{ else }}index, follow{{ end }}">
+{{/* Tags with too few posts read as duplicate/thin content to search engines (observed cutoff: flagged tags topped out at 5 posts, healthy tags started at 6) */}}
+{{- $minTermPosts := 6 }}
+<meta name="robots" content="{{ if or (eq .Kind "section") (eq .Type "search") (and (eq .Kind "term") (lt (len .Pages) $minTermPosts)) }}noindex, follow{{ else }}index, follow{{ end }}">
 
 {{/* ===== IMAGE RESOLUTION ===== */}}
 {{/* Priority: post frontmatter image (page-bundle resource, else absolute path) → site default image */}}
