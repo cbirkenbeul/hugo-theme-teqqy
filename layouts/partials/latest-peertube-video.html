@@ -1,0 +1,26 @@
+{{- $result := "" -}}
+{{- with .Site.Params.peertube -}}
+  {{- $channelURL := . -}}
+  {{- with urls.Parse $channelURL -}}
+    {{- $instance := printf "%s://%s" .Scheme .Host -}}
+    {{- $handle := index (split (path.Base .Path) "@") 0 -}}
+    {{- if and $instance $handle -}}
+      {{- $apiURL := printf "%s/api/v1/video-channels/%s/videos?count=1&sort=-publishedAt&nsfw=false" $instance $handle -}}
+      {{- $try := try (resources.GetRemote $apiURL) -}}
+      {{- with $try.Err -}}
+        {{- warnf "latest-peertube-video: could not fetch %q: %s" $apiURL . -}}
+      {{- else with $try.Value -}}
+        {{- $data := .Content | transform.Unmarshal -}}
+        {{- with $data.data -}}
+          {{- $v := index . 0 -}}
+          {{- $result = dict
+            "title" $v.name
+            "embedURL" (printf "%s%s" $instance $v.embedPath)
+            "thumbnailURL" (printf "%s%s" $instance $v.thumbnailPath)
+          -}}
+        {{- end -}}
+      {{- end -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+{{- return $result -}}

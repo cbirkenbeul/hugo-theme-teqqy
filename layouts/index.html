@@ -1,6 +1,7 @@
 {{ define "main" }}
 {{- $posts := where .Site.RegularPages "Section" "posts" -}}
 {{- $featured := index $posts 0 -}}
+{{- $video := partial "latest-peertube-video.html" . -}}
 
 <div class="page-container home">
 
@@ -16,22 +17,42 @@
   </div>
   {{- end }}
 
-  {{/* Featured post */}}
-  {{- with $featured }}
-  <article class="featured-post">
-    <p class="featured-label">{{ i18n "latestPost" }}</p>
-    <h2 class="featured-title">
-      <a href="{{ .RelPermalink }}">{{ .Title }}</a>
-    </h2>
-    {{- partial "meta.html" . -}}
-    {{- with .Summary }}
-    <p class="featured-summary">{{ . | plainify | truncate 200 }}</p>
+  {{/* Featured post + latest PeerTube video, side by side */}}
+  <div class="featured-row">
+
+    {{- with $featured }}
+    <article class="featured-post">
+      <p class="featured-label">{{ i18n "latestPost" }}</p>
+      <h2 class="featured-title">
+        <a href="{{ .RelPermalink }}">{{ .Title }}</a>
+      </h2>
+      {{- partial "meta.html" . -}}
+      {{- with .Summary }}
+      <p class="featured-summary">{{ . | plainify | truncate 200 }}</p>
+      {{- end }}
+      <a class="featured-read-more" href="{{ .RelPermalink }}">
+        {{ i18n "readMore" }} &rarr;
+      </a>
+    </article>
     {{- end }}
-    <a class="featured-read-more" href="{{ .RelPermalink }}">
-      {{ i18n "readMore" }} &rarr;
-    </a>
-  </article>
-  {{- end }}
+
+    {{- with $video }}
+    <article class="featured-video">
+      <p class="featured-label">{{ i18n "latestVideo" }}</p>
+      <div class="video-embed video-embed--thumb" data-src="{{ .embedURL }}?autoplay=1&warningTitle=0">
+        {{- with .thumbnailURL }}
+        <img class="video-embed-thumb" src="{{ . }}" alt="" loading="lazy" width="1280" height="720">
+        {{- end }}
+        <button class="video-embed-trigger" type="button" data-umami-event="Video Load" data-umami-event-provider="PeerTube" data-umami-event-url="{{ .embedURL }}">
+          <svg class="video-embed-play-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" width="48" height="48"><circle cx="12" cy="12" r="12" fill="rgba(0,0,0,0.6)"/><path d="M9.5 7.5l7 4.5-7 4.5V7.5z" fill="white"/></svg>
+          <span class="video-embed-title">{{ .title }}</span>
+          <span class="video-embed-note">PeerTube &middot; {{ i18n "videoClickToLoad" }}</span>
+        </button>
+      </div>
+    </article>
+    {{- end }}
+
+  </div>
 
   {{/* Posts grouped by year (excluding the featured post above) */}}
   {{- $archivePosts := where $posts "Permalink" "ne" $featured.Permalink -}}
