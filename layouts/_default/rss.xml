@@ -28,7 +28,7 @@
       {{ with .Lastmod }}<lastBuildDate>{{ .Format "Mon, 02 Jan 2006 15:04:05 -0700" }}</lastBuildDate>{{ end }}
       <guid isPermaLink="true">{{ .Permalink }}</guid>
       <description>{{ .Summary | plainify | html }}</description>
-      <content:encoded><![CDATA[{{ .Content }}]]></content:encoded>
+      <content:encoded>{{ .Content | transform.XMLEscape | safeHTML }}</content:encoded>
       {{ range .Params.tags }}<category>{{ . }}</category>
       {{ end }}
     </item>
